@@ -1,0 +1,24 @@
+.slider {
+    position: relative;
+    width: 600px;
+    height: 300px;
+    margin: auto;
+    overflow: hidden;
+}
+  
+.slide {
+    width: 600px;
+    height: 300px;
+    position: absolute;
+
+    transition: 0.3s ease;
+    transform: translate(-100%, 0);
+}
+
+.slide.current {
+    transform: translate(0, 0);
+}
+
+.slide.current ~ .slide {
+    transform: translate(100%, 0);
+}
