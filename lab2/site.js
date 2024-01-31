@@ -1,6 +1,7 @@
 const slider = document.querySelector('.slider');
 const intervalBtn = document.querySelector('#btn-interval');
-let interval;
+const typeBtn = document.querySelector('#btn-type');
+let interval, type = 0;
 
 function getSlides() {
     var slides = document.querySelectorAll('.slide');
@@ -32,6 +33,27 @@ function intervalClick(){
     else
     {
         disableInterval();
+    }
+}
+
+function typeClick(){
+    var e = getSlides();
+    if (!type){
+        e.slides.forEach(s => {
+            s.classList.remove('moving');
+            s.classList.add('fading');
+        });
+        typeBtn.innerText = "FADING";
+        type = 1;
+    }
+    else
+    {
+        e.slides.forEach(s => {
+            s.classList.remove('fading');
+            s.classList.add('moving');
+        });
+        typeBtn.innerText = "MOVING";
+        type = 0;
     }
 }
 
@@ -87,5 +109,6 @@ function disableInterval(){
         i += 1;
     });
 
+    typeClick();
     intervalClick();
 })();

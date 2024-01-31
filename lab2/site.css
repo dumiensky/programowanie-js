@@ -10,15 +10,26 @@
     width: 600px;
     height: 300px;
     position: absolute;
+}
 
+.slide.moving{
     transition: 0.3s ease;
     transform: translate(-100%, 0);
 }
 
-.slide.current {
+.slide.moving.current {
     transform: translate(0, 0);
 }
 
-.slide.current ~ .slide {
+.slide.moving.current ~ .slide {
     transform: translate(100%, 0);
+}
+
+.slide.fading{
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.slide.fading.current {
+    opacity: 1;
 }
