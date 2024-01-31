@@ -1,4 +1,6 @@
 const slider = document.querySelector('.slider');
+const intervalBtn = document.querySelector('#btn-interval');
+let interval;
 
 function getSlides() {
     var slides = document.querySelectorAll('.slide');
@@ -22,6 +24,17 @@ function prevSlide(){
     manipulateBackwards();
 }
 
+function intervalClick(){
+    if (!interval)
+    {
+        enableInterval();
+    }
+    else
+    {
+        disableInterval();
+    }
+}
+
 function manipulateForwards() {
     var e = getSlides();
 
@@ -36,6 +49,19 @@ function manipulateBackwards() {
     e.current.classList.remove('current');
     e.current.previousElementSibling.classList.add('current');
     slider.insertBefore(e.last, e.first);
+}
+
+function enableInterval() {
+    interval = setInterval(() => {
+        nextSlide();
+    }, 2000);
+    intervalBtn.innerText = "STOP";
+}
+
+function disableInterval(){
+    clearInterval(interval);
+    interval = null;
+    intervalBtn.innerText = "START";
 }
 
 (function init() {
@@ -60,4 +86,6 @@ function manipulateBackwards() {
         buttonsContainer.appendChild(btn);
         i += 1;
     });
+
+    intervalClick();
 })();
