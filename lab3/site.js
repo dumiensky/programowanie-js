@@ -13,7 +13,7 @@ const soundSet = [
 const metronomA = document.querySelector('.metronom-container > audio');
 const metronomBtn = document.querySelector('.metronom-container > button');
 const metronomInput = document.querySelector('.metronom-container > input');
-let metronomInterval;
+let metronomInterval, isLooping;
 
 const recordings = [];
 
@@ -57,26 +57,53 @@ function createButtons() {
     }
 }
 
-function playLines(btn) {
+function playLinesSingle(btn) {
+    btn.innerText = "Odtwarzanie...";
+
+    let offset = playLines();
+
+    setTimeout(() => {
+        btn.innerText = "Odtwórz";
+    }, offset);
+}
+
+async function playLinesLooping(btn) {
+    if (!isLooping) {
+        btn.innerText = "Odtwarzanie w pętli...";
+        isLooping = true;
+
+        while (isLooping) {
+            let offset = playLines();
+            await sleep(offset);
+        }
+    }
+    else {
+        isLooping = false;
+        btn.innerText = "Odtwórz w pętli";
+    }
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms || DEF_DELAY));
+}
+
+function playLines() {
     let endOffset = 10;
     for (const recordingEntity of recordings) {
         if (recordingEntity.ShouldPlay) {
             for (const sound of recordingEntity.Sounds) {
-                btn.innerText = "Odtwarzanie...";
                 let offset = sound.Time - recordingEntity.Start;
-    
-                if (offset > endOffset){
+
+                if (offset > endOffset) {
                     endOffset = offset;
                 }
-    
+
                 setTimeout(() => playSound(sound.Key), offset);
             }
         }
-   }
+    }
 
-   setTimeout(() => {
-       btn.innerText = "Odtwórz";
-   }, endOffset);
+    return endOffset;
 }
 
 function onKeyDown(e) {
@@ -89,7 +116,7 @@ function playSound(key) {
         audio.currentTime = 0;
         audio.play();
 
-        for(const line of recordings) {
+        for (const line of recordings) {
             if (line.IsRecording) {
                 line.Sounds.push({
                     Key: key,
@@ -122,13 +149,12 @@ function addRecordingLine() {
     lineBtn.innerText = "ROZPOCZNIJ NAGRYWANIE";
     lineBtn.addEventListener('click', e => {
         let recordingEntity = recordings.find(r => r.Key == key);
-        if(recordingEntity) {
-            if(recordingEntity.IsRecording) {
+        if (recordingEntity) {
+            if (recordingEntity.IsRecording) {
                 recordingEntity.IsRecording = false;
                 lineBtn.innerText = "ROZPOCZNIJ NAGRYWANIE (nadpisz)";
             }
-            else
-            {
+            else {
                 recordingEntity.Start = Date.now();
                 recordingEntity.Sounds = [];
                 recordingEntity.IsRecording = true;
@@ -146,7 +172,7 @@ function addRecordingLine() {
             let index = recordings.indexOf(recordingEntity);
             recordings.splice(index, 1);
         }
-        
+
         let divToRemove = document.querySelector(`div[data-key="${key}"]`);
         if (divToRemove) {
             recordingsContainer.removeChild(divToRemove);
@@ -180,16 +206,14 @@ function addRecordingLine() {
 }
 
 function metronomClick() {
-    if (!metronomInterval)
-    {
+    if (!metronomInterval) {
         metronomInterval = setInterval(() => {
             metronomA.currentTime = 0;
             metronomA.play();
         }, 60000 / parseInt(metronomInput.value));
         metronomBtn.innerText = "STOP";
     }
-    else
-    {
+    else {
         clearInterval(metronomInterval);
         metronomInterval = null;
         metronomBtn.innerText = "START";
