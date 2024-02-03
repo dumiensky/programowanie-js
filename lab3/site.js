@@ -10,10 +10,16 @@ const soundSet = [
     { Key: 'L', Name: 'Tom', File: 'sounds/tom.wav' }
 ];
 
+const metronomA = document.querySelector('.metronom-container > audio');
+const metronomBtn = document.querySelector('.metronom-container > button');
+const metronomInput = document.querySelector('.metronom-container > input');
+let metronomInterval;
+
 (function init() {
 
     createButtons();
 
+    metronomBtn.addEventListener('click', metronomClick);
     document.addEventListener('keydown', onKeyDown);
 
 })();
@@ -62,5 +68,33 @@ function playSound(key) {
                 div.classList.remove('active');
             }, 100);
         }
+    }
+}
+
+const recordings = [];
+
+function addRecordingLine() {
+
+    const recordingsContainer = document.querySelector('.recordings-container');
+
+    recordings.push({
+        
+    });
+}
+
+function metronomClick() {
+    if (!metronomInterval)
+    {
+        metronomInterval = setInterval(() => {
+            metronomA.currentTime = 0;
+            metronomA.play();
+        }, 60000 / parseInt(metronomInput.value));
+        metronomBtn.innerText = "STOP";
+    }
+    else
+    {
+        clearInterval(metronomInterval);
+        metronomInterval = null;
+        metronomBtn.innerText = "START";
     }
 }
