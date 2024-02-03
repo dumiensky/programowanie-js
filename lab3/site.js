@@ -15,12 +15,18 @@ const metronomBtn = document.querySelector('.metronom-container > button');
 const metronomInput = document.querySelector('.metronom-container > input');
 let metronomInterval;
 
+const recordings = [];
+
 (function init() {
 
     createButtons();
 
     metronomBtn.addEventListener('click', metronomClick);
     document.addEventListener('keydown', onKeyDown);
+
+    addRecordingLine();
+    addRecordingLine();
+    addRecordingLine();
 
 })();
 
@@ -51,6 +57,28 @@ function createButtons() {
     }
 }
 
+function playLines(btn) {
+    let endOffset = 10;
+    for (const recordingEntity of recordings) {
+        if (recordingEntity.ShouldPlay) {
+            for (const sound of recordingEntity.Sounds) {
+                btn.innerText = "Odtwarzanie...";
+                let offset = sound.Time - recordingEntity.Start;
+    
+                if (offset > endOffset){
+                    endOffset = offset;
+                }
+    
+                setTimeout(() => playSound(sound.Key), offset);
+            }
+        }
+   }
+
+   setTimeout(() => {
+       btn.innerText = "Odtwórz";
+   }, endOffset);
+}
+
 function onKeyDown(e) {
     playSound(e.key);
 }
@@ -60,6 +88,15 @@ function playSound(key) {
     if (audio) {
         audio.currentTime = 0;
         audio.play();
+
+        for(const line of recordings) {
+            if (line.IsRecording) {
+                line.Sounds.push({
+                    Key: key,
+                    Time: Date.now()
+                });
+            }
+        }
 
         var div = document.querySelector(`div[data-key="${key}"]`);
         if (div) {
@@ -71,14 +108,74 @@ function playSound(key) {
     }
 }
 
-const recordings = [];
-
 function addRecordingLine() {
 
     const recordingsContainer = document.querySelector('.recordings-container');
+    const key = "line" + parseInt(Math.random() * 10000);
+
+    let recordingD = document.createElement('div');
+    recordingD.dataset.key = key;
+    let titleP = document.createElement('p');
+    titleP.innerText = "Linia nagraniowa";
+
+    let lineBtn = document.createElement('button');
+    lineBtn.innerText = "ROZPOCZNIJ NAGRYWANIE";
+    lineBtn.addEventListener('click', e => {
+        let recordingEntity = recordings.find(r => r.Key == key);
+        if(recordingEntity) {
+            if(recordingEntity.IsRecording) {
+                recordingEntity.IsRecording = false;
+                lineBtn.innerText = "ROZPOCZNIJ NAGRYWANIE (nadpisz)";
+            }
+            else
+            {
+                recordingEntity.Start = Date.now();
+                recordingEntity.Sounds = [];
+                recordingEntity.IsRecording = true;
+                lineBtn.innerText = "NAGRYWA - ZAKONCZ NAGRYWANIE";
+            }
+        }
+    });
+
+    let deleteLineBtn = document.createElement('button');
+    deleteLineBtn.innerText = "USUŃ LINIĘ";
+    deleteLineBtn.addEventListener('click', () => {
+
+        let recordingEntity = recordings.find(r => r.Key == key);
+        if (recordingEntity) {
+            let index = recordings.indexOf(recordingEntity);
+            recordings.splice(index, 1);
+        }
+        
+        let divToRemove = document.querySelector(`div[data-key="${key}"]`);
+        if (divToRemove) {
+            recordingsContainer.removeChild(divToRemove);
+        }
+    });
+
+    let shouldPlayCheckbox = document.createElement('input');
+    shouldPlayCheckbox.type = 'checkbox';
+    shouldPlayCheckbox.checked = true;
+    shouldPlayCheckbox.addEventListener('click', () => {
+        let recordingEntity = recordings.find(r => r.Key == key);
+        if (recordingEntity) {
+            recordingEntity.ShouldPlay = !recordingEntity.ShouldPlay;
+        }
+    });
+
+    recordingD.appendChild(shouldPlayCheckbox);
+    recordingD.appendChild(titleP);
+    recordingD.appendChild(deleteLineBtn);
+    recordingD.appendChild(lineBtn);
+
+    recordingsContainer.appendChild(recordingD);
 
     recordings.push({
-        
+        Key: key,
+        Start: Date.now(),
+        IsRecording: false,
+        ShouldPlay: true,
+        Sounds: []
     });
 }
 

@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     gap: 2px;
+    padding: 10px;
 }
 
 .sound-div {
@@ -17,4 +18,18 @@
 .sound-div.active {
     background-color: orange;
     transition: background-color 0.05s;
+}
+
+.recordings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recordings-container div {
+    border: 1px solid black;
+    background-color: #eee;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
 }
