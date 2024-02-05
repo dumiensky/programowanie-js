@@ -1,0 +1,33 @@
+.container {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.note {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.note .management {
+    display: flex;
+    justify-content: space-between;
+}
+
+.note .management input[type="checkbox"]::after {
+    content: "Pinned";
+    padding-left: 20px;
+}
+
+input.note-header {
+    background: transparent;
+    font-weight: 600;;
+    border: 0;
+}
+
+input.note-content {
+    border: 0;
+}
