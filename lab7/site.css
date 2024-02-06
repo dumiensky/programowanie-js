@@ -1,0 +1,44 @@
+.weathers {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.weather {
+    width: 200px;
+    background-color: skyblue;
+    border: 2px solid lightskyblue;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.weather > span {
+    font-size: 1.5em;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.weather-info {
+    display: flex;
+    align-items: center;
+}
+
+.weather-info .texts {
+    display: flex;
+    flex-direction: column;
+}
+
+.weather-info .texts .temp {
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.weather-info .texts .hum {
+    color: #666;
+    text-wrap: nowrap;
+}
