@@ -4,10 +4,10 @@ const typeBtn = document.querySelector('#btn-type');
 let interval, type = 0;
 
 function getSlides() {
-    var slides = document.querySelectorAll('.slide');
-    var first = slides[0];
-    var last = slides[slides.length- 1];
-    var current = document.querySelector('.slide.current');
+    let slides = document.querySelectorAll('.slide');
+    let first = slides[0];
+    let last = slides[slides.length- 1];
+    let current = document.querySelector('.slide.current');
 
     return {
         slides,
@@ -37,7 +37,7 @@ function intervalClick(){
 }
 
 function typeClick(){
-    var e = getSlides();
+    let e = getSlides();
     if (!type){
         e.slides.forEach(s => {
             s.classList.remove('moving');
@@ -58,7 +58,7 @@ function typeClick(){
 }
 
 function manipulateForwards() {
-    var e = getSlides();
+    let e = getSlides();
 
     e.current.classList.remove('current');
     e.current.nextElementSibling.classList.add('current');
@@ -66,7 +66,7 @@ function manipulateForwards() {
 }
 
 function manipulateBackwards() {
-    var e = getSlides();
+    let e = getSlides();
 
     e.current.classList.remove('current');
     e.current.previousElementSibling.classList.add('current');
@@ -87,7 +87,7 @@ function disableInterval(){
 }
 
 (function init() {
-    var e = getSlides();
+    let e = getSlides();
     e.first.classList.add('current');
     slider.insertBefore(e.last, e.first);
 

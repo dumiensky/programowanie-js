@@ -30,8 +30,8 @@ function Calculate()
 
     container.querySelectorAll('input').forEach(input =>
         {
-            var value = input.value.replace(",",".");
-            var floatValue = parseFloat(value);
+            let value = input.value.replace(",",".");
+            let floatValue = parseFloat(value);
 
             if (floatValue)
             {

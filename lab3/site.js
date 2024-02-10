@@ -34,18 +34,18 @@ function createButtons() {
     const container = document.querySelector('.container');
 
     for (const sound of soundSet) {
-        var soundD = document.createElement('div');
+        let soundD = document.createElement('div');
         soundD.classList.add('sound-div');
         soundD.dataset.key = sound.Key.toLowerCase();
 
-        var keyP = document.createElement('p');
+        let keyP = document.createElement('p');
         keyP.innerText = sound.Key;
         keyP.style.fontSize = "2em";
 
-        var nameP = document.createElement('p');
+        let nameP = document.createElement('p');
         nameP.innerText = sound.Name;
 
-        var audioE = document.createElement('audio');
+        let audioE = document.createElement('audio');
         audioE.src = sound.File;
         audioE.dataset.key = sound.Key.toLowerCase();
 
@@ -111,7 +111,7 @@ function onKeyDown(e) {
 }
 
 function playSound(key) {
-    var audio = document.querySelector(`audio[data-key="${key}"]`);
+    let audio = document.querySelector(`audio[data-key="${key}"]`);
     if (audio) {
         audio.currentTime = 0;
         audio.play();
@@ -125,7 +125,7 @@ function playSound(key) {
             }
         }
 
-        var div = document.querySelector(`div[data-key="${key}"]`);
+        let div = document.querySelector(`div[data-key="${key}"]`);
         if (div) {
             div.classList.add('active');
             setTimeout(() => {

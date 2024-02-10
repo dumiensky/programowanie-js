@@ -59,10 +59,10 @@ function stop() {
 
 function populateCircles() {
     circles = [];
-    for (var i = 0; i < inputCount.value; i++) {
-        var radius = parseInt(Math.random() * 15) + 5;
-        var x = Math.random() * (canvas.width - radius * 2) + radius;
-        var y = Math.random() * (canvas.height - radius * 2) + radius;
+    for (let i = 0; i < inputCount.value; i++) {
+        let radius = parseInt(Math.random() * 15) + 5;
+        let x = Math.random() * (canvas.width - radius * 2) + radius;
+        let y = Math.random() * (canvas.height - radius * 2) + radius;
         circles.push(new Circle(x, y, radius));
     }
 }

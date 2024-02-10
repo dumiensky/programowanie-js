@@ -42,7 +42,7 @@ async function add() {
         return;
     
 
-    var data = await getFromApi(value);
+    let data = await getFromApi(value);
     if (data) {
         weathers.push(new Weather(data.name, data.main.temp, data.main.humidity, data.weather[0].icon));
         saveWeathers();
@@ -64,7 +64,7 @@ async function load() {
 
     for(const weather of weathers) {
         if (weather.lastUpdate < fiveMinutesAgo) {
-            var data = await getFromApi(weather.name);
+            let data = await getFromApi(weather.name);
             if (data) {
                 weather.lastUpdate = Date.now();
                 weather.tempC = tempToC(data.main.temp);
