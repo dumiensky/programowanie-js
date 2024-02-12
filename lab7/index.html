@@ -14,10 +14,11 @@
     <hr />
 
     <div style="display: flex;">
-        <input type="text" id="input-place" placeholder="Nazwa miejscowości..." />
-        <button onclick="add()">
-            Dodaj
-        </button>
+
+        <form autocomplete="off" onsubmit="return false;">
+            <input type="text" id="search-input" placeholder="Szukaj miejscowości..." />
+            <div id="search-results"></div>
+        </form>
     </div>
 
     <div class="weathers">
